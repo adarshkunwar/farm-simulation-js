@@ -27,6 +27,10 @@ body {
     box-sizing: border-box;
 }
 
+.water {
+    background-color: #1e90ff;
+}
+
 .planted {
     background-color: #8b4513;
 }

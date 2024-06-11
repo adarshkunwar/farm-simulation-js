@@ -6,7 +6,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const gridSize = 10;
   const cells = [];
-  const water = [];
+  let water = [];
+
+
+  function GenerateRandomWaterTile() {
+    water = [];
+    let randomTile = Math.floor(Math.random() * gridSize * gridSize);
+    if (water.includes(randomTile)) {
+      GenerateRandomWaterTile();
+    }
+    else {
+      water.push(randomTile);
+    }
+  }
+
+  function colorWaterTiles() {
+    for (let i = 0; i < water.length; i++) {
+      cells[water[i]].classList.add('water');
+    }
+  }
 
   // Initialize field with cells
   for (let i = 0; i < gridSize * gridSize; i++) {
@@ -44,5 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+  GenerateRandomWaterTile();
+  colorWaterTiles();
 });
 
