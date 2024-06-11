@@ -27,21 +27,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Initialize field with cells
-  for (let i = 0; i < gridSize * gridSize; i++) {
-    const cell = document.createElement('div');
-    cell.classList.add('cell');
-    cell.addEventListener('click', () => {
-      if (cell.classList.contains('planted')) {
-        cell.classList.remove('planted');
-        cell.classList.add('harvested');
-        message.textContent = 'You harvested the crops!';
-      } else {
-        cell.classList.add('planted');
-        message.textContent = 'You planted seeds!';
-      }
-    });
-    field.appendChild(cell);
-    cells.push(cell);
+  function GenerateTiles() {
+    for (let i = 0; i < gridSize * gridSize; i++) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      cell.addEventListener('click', () => {
+        if (cell.classList.contains('planted')) {
+          cell.classList.remove('planted');
+          cell.classList.add('harvested');
+          message.textContent = 'You harvested the crops!';
+        } else {
+          cell.classList.add('planted');
+          message.textContent = 'You planted seeds!';
+        }
+      });
+      field.appendChild(cell);
+      cells.push(cell);
+    }
   }
 
   plantButton.addEventListener('click', () => {
@@ -62,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+  GenerateTiles();
   GenerateRandomWaterTile();
   colorWaterTiles();
 });
