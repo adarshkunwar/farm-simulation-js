@@ -18,24 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cells[i].classList.add('water');
   }
 
-
-  function GenerateRandomWaterTile() {
-    water = [];
-    let randomTile = Math.floor(Math.random() * gridSize * gridSize);
-    if (water.includes(randomTile)) {
-      GenerateRandomWaterTile();
-    }
-    else {
-      water.push(randomTile);
-    }
-  }
-
-  function colorWaterTiles() {
-    for (let i = 0; i < water.length; i++) {
-      cells[water[i]].classList.add('water');
-    }
-  }
-
   // Initialize field with cells
   function GenerateTiles() {
     for (let i = 0; i < gridSize * gridSize; i++) {
@@ -54,6 +36,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function GenerateRandomWaterTile() {
+    water = [];
+    let randomTile = Math.floor(Math.random() * gridSize * gridSize);
+    if (water.includes(randomTile)) {
+      GenerateRandomWaterTile();
+    }
+    else {
+      water.push(randomTile);
+    }
+  }
+
+  function colorWaterTiles() {
+    for (let i = 0; i < water.length; i++) {
+      cells[water[i]].classList.add('water');
+    }
+  }
+
+
   plantButton.addEventListener('click', () => {
     optionSelected = "plant";
   });
@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
   GenerateTiles();
   GenerateRandomWaterTile();
   colorWaterTiles();
