@@ -27,8 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function AddWater(i) {
-    cells[i].classList.add('water');
-    water.push(i)
+    if (CheckAdjacentCells(i).includes("water")) {
+      cells[i].classList.add('water');
+      water.push(i)
+    }
+
   }
 
   function plantSeeds(i) {
