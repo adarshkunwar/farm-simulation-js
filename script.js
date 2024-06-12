@@ -9,13 +9,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const gridSize = 10;
   const cells = [];
+  const planted = [];
   let water = [];
+
+  function CheckTilePosition(i) {
+    if (planted.includes(i)) return "planted"
+    if (water.includes(i)) return "water"
+    else return "empty"
+  }
+
+  function CheckAdjacentCells(i) {
+    north = (i < gridSize) ? "wall" : CheckTilePosition(i - gridSize);
+    east = (i + 1) % gridSize === 0 ? "wall" : CheckTilePosition(i + 1);
+    south = i + gridSize > gridSize * gridSize ? "wall" : CheckTilePosition(i + gridSize);
+    west = (i) % gridSize === 0 ? "wall" : CheckTilePosition(i - 1);
+    return [north, east, south, west];
+  }
+
+  function AddWater(i) {
+    cells[i].classList.add('water');
+    water.push(i)
+  }
 
   function plantSeeds(i) {
     cells[i].classList.add('planted');
-  }
-  function AddWater(i) {
-    cells[i].classList.add('water');
+    planted.push(i)
   }
 
   // Initialize field with cells
@@ -75,5 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
   GenerateTiles();
   GenerateRandomWaterTile();
   colorWaterTiles();
+  console.log(CheckAdjacentCells(1));
 });
 
