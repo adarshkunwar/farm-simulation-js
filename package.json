@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "a web game made by adarsh",
   "main": "script.js",
+  "type": "module",
   "scripts": {
     "test": "jest"
   },
@@ -24,7 +25,8 @@
   },
   "homepage": "https://github.com/adarshkunwar/farm-sim-js#readme",
   "devDependencies": {
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
   },
   "dependencies": {
     "ts-node": "^10.9.2"

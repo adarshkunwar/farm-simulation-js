@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function CheckAdjacentCells(i) {
     north = (i < gridSize) ? "wall" : CheckTilePosition(i - gridSize);
     east = (i + 1) % gridSize === 0 ? "wall" : CheckTilePosition(i + 1);
-    south = i + gridSize > gridSize * gridSize ? "wall" : CheckTilePosition(i + gridSize);
+    south = (i + gridSize) > gridSize * gridSize ? "wall" : CheckTilePosition(i + gridSize);
     west = (i) % gridSize === 0 ? "wall" : CheckTilePosition(i - 1);
     return [north, east, south, west];
   }
@@ -31,12 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
       cells[i].classList.add('water');
       water.push(i)
     }
-
   }
 
   function plantSeeds(i) {
-    cells[i].classList.add('planted');
-    planted.push(i)
+    if (CheckAdjacentCells(i).includes("water")) {
+      cells[i].classList.add('planted');
+      planted.push(i)
+    }
   }
 
   // Initialize field with cells
@@ -96,6 +97,5 @@ document.addEventListener('DOMContentLoaded', () => {
   GenerateTiles();
   GenerateRandomWaterTile();
   colorWaterTiles();
-  console.log(CheckAdjacentCells(1));
 });
 
