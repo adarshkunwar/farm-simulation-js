@@ -27,20 +27,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function AddWater(i) {
-    if (CheckAdjacentCells(i).includes("water")) {
-      cells[i].classList.add('water');
-      water.push(i)
+    if (CheckTilePosition(i) === "empty") {
+      if (CheckAdjacentCells(i).includes("water")) {
+        cells[i].classList.add('water');
+        water.push(i)
+      }
     }
   }
 
   function plantSeeds(i) {
-    if (CheckAdjacentCells(i).includes("water")) {
-      cells[i].classList.add('planted');
-      planted.push(i)
+    if (CheckTilePosition(i) === "empty") {
+      if (CheckAdjacentCells(i).includes("water")) {
+        cells[i].classList.add('planted');
+        planted.push(i)
+      }
     }
   }
 
-  // Initialize field with cells
   function GenerateTiles() {
     for (let i = 0; i < gridSize * gridSize; i++) {
       const cell = document.createElement('div');
@@ -74,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
       cells[water[i]].classList.add('water');
     }
   }
-
 
   plantButton.addEventListener('click', () => {
     optionSelected = "plant";
