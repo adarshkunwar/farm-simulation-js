@@ -2,14 +2,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const field = document.getElementById('field');
   const plantButton = document.getElementById('plant');
   const harvestButton = document.getElementById('harvest');
-  const waterbutton = document.getElementById('water');
+  const waterButton = document.getElementById('water');
+  const flattenButton = document.getElementById('flatten');
   const message = document.getElementById('message');
 
   let optionSelected = "water";
 
   const gridSize = 10;
   const cells = [];
-  const planted = [];
+  let planted = [];
   let water = [];
 
   function CheckTilePosition(i) {
@@ -44,6 +45,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function flattenTile(i) {
+    let selectedTile = CheckTilePosition(i)
+    switch (selectedTile) {
+      case "water":
+        water = water.filter(item => item !== i);
+        cells[i].classList.remove("water")
+        break;
+      case "planted":
+        planted = planted.filter(item => item !== i);
+        cells[i].classList.remove("planted")
+        break;
+      default:
+        break;
+    }
+  }
+
   function GenerateTiles() {
     for (let i = 0; i < gridSize * gridSize; i++) {
       const cell = document.createElement('div');
@@ -55,6 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (optionSelected === "water") {
           AddWater(i);
         }
+        if (optionSelected === "flatten") {
+          flattenTile(i)
+        }
       });
       field.appendChild(cell);
       cells.push(cell);
@@ -62,17 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function GenerateRandomWaterTile() {
-    water = [];
     let randomTile = Math.floor(Math.random() * gridSize * gridSize);
-    if (water.includes(randomTile)) {
-      GenerateRandomWaterTile();
-    }
-    else {
-      water.push(randomTile);
-    }
-  }
-
-  function colorWaterTiles() {
+    water.push(randomTile);
     for (let i = 0; i < water.length; i++) {
       cells[water[i]].classList.add('water');
     }
@@ -82,8 +93,12 @@ document.addEventListener('DOMContentLoaded', () => {
     optionSelected = "plant";
   });
 
-  waterbutton.addEventListener('click', () => {
+  waterButton.addEventListener('click', () => {
     optionSelected = "water";
+  });
+
+  flattenButton.addEventListener('click', () => {
+    optionSelected = "flatten";
   });
 
   harvestButton.addEventListener('click', () => {
@@ -98,6 +113,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   GenerateTiles();
   GenerateRandomWaterTile();
-  colorWaterTiles();
 });
 
