@@ -2,11 +2,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const field = document.getElementById('field');
   const plantButton = document.getElementById('plant');
   const harvestButton = document.getElementById('harvest');
+  const waterbutton = document.getElementById('water');
   const message = document.getElementById('message');
+
+  let optionSelected = "water";
 
   const gridSize = 10;
   const cells = [];
   let water = [];
+
+  function plantSeeds(i) {
+    cells[i].classList.add('planted');
+  }
+  function AddWater(i) {
+    cells[i].classList.add('water');
+  }
 
 
   function GenerateRandomWaterTile() {
@@ -32,13 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const cell = document.createElement('div');
       cell.classList.add('cell');
       cell.addEventListener('click', () => {
-        if (cell.classList.contains('planted')) {
-          cell.classList.remove('planted');
-          cell.classList.add('harvested');
-          message.textContent = 'You harvested the crops!';
-        } else {
-          cell.classList.add('planted');
-          message.textContent = 'You planted seeds!';
+        if (optionSelected === "plant") {
+          plantSeeds(i);
+        }
+        if (optionSelected === "water") {
+          AddWater(i);
         }
       });
       field.appendChild(cell);
@@ -47,12 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   plantButton.addEventListener('click', () => {
-    cells.forEach(cell => {
-      if (!cell.classList.contains('planted')) {
-        cell.classList.add('planted');
-        message.textContent = 'You planted seeds!';
-      }
-    });
+    optionSelected = "plant";
+  });
+
+  waterbutton.addEventListener('click', () => {
+    optionSelected = "water";
   });
 
   harvestButton.addEventListener('click', () => {
