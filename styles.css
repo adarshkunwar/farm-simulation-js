@@ -28,7 +28,7 @@ body {
 }
 
 .wheat01 {
-    background: url('assets/wheat01.svg') no-repeat center center;
+    background: url('assets/wheat01.png') no-repeat center center;
     background-size: cover;
 }
 
@@ -38,7 +38,7 @@ body {
 }
 
 .planted {
-    background-color: #8b4513;
+    background-color: #8b6313;
 }
 
 .harvested {
