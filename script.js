@@ -110,4 +110,3 @@ document.addEventListener('DOMContentLoaded', () => {
     GenerateTiles();
     GenerateRandomWaterTile();
 });
-//# sourceMappingURL=script.js.map
