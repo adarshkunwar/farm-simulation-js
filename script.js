@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (CheckTilePosition(i) === "empty") {
             if (CheckAdjacentCells(i).includes("water")) {
                 cells[i].classList.add('planted');
+                cells[i].classList.add('wheat01');
                 planted.push({ cell: i, age: 1 });
             }
         }

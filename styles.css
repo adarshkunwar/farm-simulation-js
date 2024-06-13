@@ -27,6 +27,11 @@ body {
     box-sizing: border-box;
 }
 
+.wheat01 {
+    background: url('assets/wheat01.svg') no-repeat center center;
+    background-size: cover;
+}
+
 .water {
     background: url('assets/water.svg') no-repeat center center;
     background-size: cover;
