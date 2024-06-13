@@ -4,12 +4,13 @@
   "description": "a cake quest",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-    "build" : "tsc"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
+    "@types/node": "^20.14.2",
     "typescript": "^5.4.5"
   }
 }
