@@ -4,10 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const harvestButton = document.getElementById('harvest');
   const waterButton = document.getElementById('water');
   const flattenButton = document.getElementById('flatten');
+  const nextButton = document.getElementById('next');
+  const day = document.getElementById('day');
   const message = document.getElementById('message');
 
   let optionSelected = "water";
-
+  let currentDay = 100;
   const gridSize = 10;
   const cells = [];
   let planted = [];
@@ -100,6 +102,11 @@ document.addEventListener('DOMContentLoaded', () => {
   flattenButton.addEventListener('click', () => {
     optionSelected = "flatten";
   });
+
+  nextButton.addEventListener('click', () => {
+    currentDay--;
+    day.textContent = `you have ${currentDay} days`
+  })
 
   harvestButton.addEventListener('click', () => {
     cells.forEach(cell => {

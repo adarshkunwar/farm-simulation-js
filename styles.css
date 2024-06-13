@@ -28,8 +28,8 @@ body {
 }
 
 .water {
-    background : url('assets/water.svg') no-repeat center center;
-    background-size : cover;
+    background: url('assets/water.svg') no-repeat center center;
+    background-size: cover;
 }
 
 .planted {
@@ -58,4 +58,3 @@ button:hover {
     margin-top: 20px;
     font-size: 18px;
 }
-
