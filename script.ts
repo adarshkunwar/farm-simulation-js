@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
   const field = document.getElementById('field');
   const plantButton = document.getElementById('plant');
@@ -32,6 +33,28 @@ document.addEventListener('DOMContentLoaded', () => {
     let south = (i + gridSize) > gridSize * gridSize ? "wall" : CheckTilePosition(i + gridSize);
     let west = (i) % gridSize === 0 ? "wall" : CheckTilePosition(i - 1);
     return [north, east, south, west];
+  }
+
+
+  function AgePlant() {
+    for (let i = 0; i < planted.length; i++) {
+      planted[i].age = planted[i].age + 1;
+      switch (planted[i].age) {
+        case 1:
+          break;
+        case 2:
+          cells[planted[i].cell].classList.remove('wheat01');
+          cells[planted[i].cell].classList.add('wheat02');
+          break;
+        case 3:
+          cells[planted[i].cell].classList.remove('wheat02');
+          cells[planted[i].cell].classList.add('wheat03');
+          break;
+        default:
+          break;
+      }
+    }
+
   }
 
   function AddWater(i: number) {
@@ -109,8 +132,9 @@ document.addEventListener('DOMContentLoaded', () => {
     optionSelected = "flatten";
   });
 
-  nextButton?.addEventListener('click', () => {
+  nextButton!.addEventListener('click', () => {
     currentDay--;
+    AgePlant();
     day!.textContent = `you have ${currentDay} days`
   })
 

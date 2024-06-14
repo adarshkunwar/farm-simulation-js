@@ -32,6 +32,16 @@ body {
     background-size: cover;
 }
 
+.wheat02 {
+    background: url('assets/wheat02.png') no-repeat center center;
+    background-size: cover;
+}
+
+.wheat03 {
+    background: url('assets/wheat03.png') no-repeat center center;
+    background-size: cover;
+}
+
 .water {
     background: url('assets/water.svg') no-repeat center center;
     background-size: cover;
