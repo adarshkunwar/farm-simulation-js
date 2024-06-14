@@ -1,5 +1,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
+  const score = document.getElementById('score');
   const field = document.getElementById('field');
   const plantButton = document.getElementById('plant');
   const harvestButton = document.getElementById('harvest');
@@ -14,12 +15,22 @@ document.addEventListener('DOMContentLoaded', () => {
     age: number;
   }
 
-  let optionSelected: 'water' | 'planted' | 'flatten' = "water";
+  type harvest = {
+    seedType: 'wheat' | 'chocolate' | 'milk' | 'eggs';
+    quantity: number
+  }
+
+  let optionSelected: 'water' | 'planted' | 'flatten' | 'harvest' = "water";
   let currentDay: number = 100;
   const gridSize: number = 10;
   const cells: HTMLElement[] = [];
   let planted: plant[] = [];
   let water: number[] = [];
+  let harvest: harvest[] = [{ seedType: 'wheat', quantity: 2 }];
+
+  function addScore() {
+    score.textContent = `wheat : ${harvest[0].quantity} \n`
+  }
 
   function CheckTilePosition(i: number): string {
     if (planted.some(plant => plant.cell === i)) return "planted"
@@ -76,6 +87,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function harvestPlants(i: number) {
+    let selectedTile = CheckTilePosition(i)
+    switch (selectedTile) {
+      case "water":
+        break;
+      case "planted":
+        let chosenPlant = planted.findIndex(item => item.cell === i)
+        let age = planted[chosenPlant].age
+        switch (age) {
+          case 1:
+            cells[i].classList.remove("wheat01");
+            break;
+          case 2:
+            cells[i].classList.remove("wheat02");
+            break;
+          case 3:
+            cells[i].classList.remove("wheat03");
+            harvest[0].quantity = harvest[0].quantity + 1;
+            break;
+          default:
+            cells[i].classList.remove("wheat03");
+            harvest[0].quantity = harvest[0].quantity + 1;
+            break;
+        }
+        planted = planted.filter(item => item.cell !== i);
+        cells[i].classList.remove("planted")
+        addScore()
+        break;
+      default:
+        break;
+    }
+  }
+
   function flattenTile(i: number) {
     let selectedTile = CheckTilePosition(i)
     switch (selectedTile) {
@@ -84,8 +128,25 @@ document.addEventListener('DOMContentLoaded', () => {
         cells[i].classList.remove("water")
         break;
       case "planted":
+        let chosenPlant = planted.findIndex(item => item.cell === i)
+        let age = planted[chosenPlant].age
+        switch (age) {
+          case 1:
+            cells[i].classList.remove("wheat01");
+            break;
+          case 2:
+            cells[i].classList.remove("wheat02");
+            break;
+          case 3:
+            cells[i].classList.remove("wheat03");
+            break;
+          default:
+            cells[i].classList.remove("wheat03");
+            break;
+        }
         planted = planted.filter(item => item.cell !== i);
         cells[i].classList.remove("planted")
+        addScore()
         break;
       default:
         break;
@@ -105,6 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (optionSelected === "flatten") {
           flattenTile(i)
+        }
+        if (optionSelected === "harvest") {
+          harvestPlants(i)
         }
       });
       field!.appendChild(cell);
@@ -139,16 +203,11 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   harvestButton!.addEventListener('click', () => {
-    cells.forEach(cell => {
-      if (cell.classList.contains('planted')) {
-        cell.classList.remove('planted');
-        cell.classList.add('harvested');
-        message!.textContent = 'You harvested the crops!';
-      }
-    });
+    optionSelected = "harvest";
   });
 
   GenerateTiles();
   GenerateRandomWaterTile();
+  addScore();
 });
 
