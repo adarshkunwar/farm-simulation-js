@@ -2,12 +2,12 @@ import { Plant, Harvest, gridSize } from './types.js';
 import { updateScore } from './ui.js';
 
 let plantedCells: Plant[] = [];
-let water: number[] = [];
-let harvest: Harvest[] = [{ seedType: 'wheat', quantity: 2 }];
+let waterCells: number[] = [];
+let harvestCells: Harvest[] = [{ seedType: 'wheat', quantity: 2 }];
 
 export function CheckTilePosition(i: number): string {
   if (plantedCells.some(plant => plant.cell === i)) return "planted";
-  if (water.includes(i)) return "water";
+  if (waterCells.includes(i)) return "water";
   else return "empty";
 }
 
@@ -43,24 +43,24 @@ export function AddWater(i: number, cells: HTMLElement[]) {
   if (CheckTilePosition(i) === "empty") {
     if (CheckAdjacentCells(i).includes("water")) {
       cells[i].classList.add('water');
-      water.push(i);
+      waterCells.push(i);
     }
   }
-  updateScore(harvest);
+  updateScore(harvestCells);
 }
 
 export function plantSeeds(i: number, cells: HTMLElement[]) {
   if (CheckTilePosition(i) === "empty") {
     if (CheckAdjacentCells(i).includes("water")) {
-      if (harvest[0].quantity > 0) {
+      if (harvestCells[0].quantity > 0) {
         cells[i].classList.add('planted');
         cells[i].classList.add('wheat01');
         plantedCells.push({ cell: i, age: 1 });
-        harvest[0].quantity = harvest[0].quantity - 1;
+        harvestCells[0].quantity = harvestCells[0].quantity - 1;
       }
     }
   }
-  updateScore(harvest);
+  updateScore(harvestCells);
 }
 
 export function harvestPlants(i: number, cells: HTMLElement[]) {
@@ -80,16 +80,16 @@ export function harvestPlants(i: number, cells: HTMLElement[]) {
           break;
         case 3:
           cells[i].classList.remove("wheat03");
-          harvest[0].quantity = harvest[0].quantity + 2;
+          harvestCells[0].quantity = harvestCells[0].quantity + 2;
           break;
         default:
           cells[i].classList.remove("wheat03");
-          harvest[0].quantity = harvest[0].quantity + 2;
+          harvestCells[0].quantity = harvestCells[0].quantity + 2;
           break;
       }
       plantedCells = plantedCells.filter(item => item.cell !== i);
       cells[i].classList.remove("planted");
-      updateScore(harvest);
+      updateScore(harvestCells);
       break;
     default:
       break;
@@ -100,7 +100,7 @@ export function flattenTile(i: number, cells: HTMLElement[]) {
   let selectedTile = CheckTilePosition(i);
   switch (selectedTile) {
     case "water":
-      water = water.filter(item => item !== i);
+      waterCells = waterCells.filter(item => item !== i);
       cells[i].classList.remove("water");
       break;
     case "planted":
@@ -122,7 +122,7 @@ export function flattenTile(i: number, cells: HTMLElement[]) {
       }
       plantedCells = plantedCells.filter(item => item.cell !== i);
       cells[i].classList.remove("planted");
-      updateScore(harvest);
+      updateScore(harvestCells);
       break;
     default:
       break;
@@ -131,8 +131,8 @@ export function flattenTile(i: number, cells: HTMLElement[]) {
 
 export function GenerateRandomWaterTile(cells: HTMLElement[]) {
   let randomTile = Math.floor(Math.random() * gridSize * gridSize);
-  water.push(randomTile);
-  for (let i = 0; i < water.length; i++) {
-    cells[water[i]].classList.add('water');
+  waterCells.push(randomTile);
+  for (let i = 0; i < waterCells.length; i++) {
+    cells[waterCells[i]].classList.add('water');
   }
 }
