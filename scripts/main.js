@@ -1,5 +1,5 @@
-import { GenerateTiles, GenerateRandomWaterTile } from './generation';
 import { currentDay, updateoptionSelected } from './values';
+import { GenerateTiles, GenerateRandomWaterTile } from './generation';
 import { AgePlant } from './plants';
 import { updateScore } from './utils';
 document.addEventListener('DOMContentLoaded', () => {
