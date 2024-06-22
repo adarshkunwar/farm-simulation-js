@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let planted = [];
     let water = [];
     let harvest = [{ seedType: 'wheat', quantity: 2 }];
-    function addScore() {
+    function updateScore() {
         score.textContent = `wheat : ${harvest[0].quantity} \n`;
     }
     function CheckTilePosition(i) {
@@ -59,15 +59,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 water.push(i);
             }
         }
+        updateScore();
     }
     function plantSeeds(i) {
         if (CheckTilePosition(i) === "empty") {
             if (CheckAdjacentCells(i).includes("water")) {
-                cells[i].classList.add('planted');
-                cells[i].classList.add('wheat01');
-                planted.push({ cell: i, age: 1 });
+                if (harvest[0].quantity > 0) {
+                    cells[i].classList.add('planted');
+                    cells[i].classList.add('wheat01');
+                    planted.push({ cell: i, age: 1 });
+                    harvest[0].quantity = harvest[0].quantity - 1;
+                }
             }
         }
+        updateScore();
     }
     function harvestPlants(i) {
         let selectedTile = CheckTilePosition(i);
@@ -86,16 +91,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         break;
                     case 3:
                         cells[i].classList.remove("wheat03");
-                        harvest[0].quantity = harvest[0].quantity + 1;
+                        harvest[0].quantity = harvest[0].quantity + 2;
                         break;
                     default:
                         cells[i].classList.remove("wheat03");
-                        harvest[0].quantity = harvest[0].quantity + 1;
+                        harvest[0].quantity = harvest[0].quantity + 2;
                         break;
                 }
                 planted = planted.filter(item => item.cell !== i);
                 cells[i].classList.remove("planted");
-                addScore();
+                updateScore();
                 break;
             default:
                 break;
@@ -127,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 planted = planted.filter(item => item.cell !== i);
                 cells[i].classList.remove("planted");
-                addScore();
+                updateScore();
                 break;
             default:
                 break;
@@ -181,5 +186,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     GenerateTiles();
     GenerateRandomWaterTile();
-    addScore();
+    updateScore();
 });

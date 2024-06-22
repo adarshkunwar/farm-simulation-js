@@ -2,12 +2,12 @@
   "name": "cake_quest",
   "version": "1.0.0",
   "description": "a cake quest",
-  "main": "script.js",
+  "main": "scripts/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
   },
-  "author": "",
+  "author": "Adarsh Kunwar",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.14.2",
