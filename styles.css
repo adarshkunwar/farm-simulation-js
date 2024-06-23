@@ -2,14 +2,17 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
     background-color: #964B00;
+    width: 100vw;
+    height: 100vh;
     margin: 0;
     padding: 0;
     position: relative;
 }
 
 #game {
-    margin-top: 50px;
     background-color: #964B00;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,7 +50,6 @@ body {
 }
 
 #game {
-    margin-top: 50px;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: 20px;
