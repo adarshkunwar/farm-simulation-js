@@ -1,9 +1,11 @@
 import { Plant, Harvest, gridSize } from './types.js';
-import { updateScore } from './ui.js';
+import { updateScore, updateMessage } from './ui.js';
 
 let plantedCells: Plant[] = [];
 let waterCells: number[] = [];
 let harvestCells: Harvest[] = [{ seedType: 'wheat', quantity: 2 }];
+let costOfWater = 5;
+let costOfSeed = 1;
 
 export function CheckTilePosition(i: number): string {
   if (plantedCells.some(plant => plant.cell === i)) return "planted";
@@ -40,10 +42,17 @@ export function AgePlant(cells: HTMLElement[]) {
 }
 
 export function AddWater(i: number, cells: HTMLElement[]) {
+  console.log("Tried to add water");
   if (CheckTilePosition(i) === "empty") {
     if (CheckAdjacentCells(i).includes("water")) {
-      cells[i].classList.add('water');
-      waterCells.push(i);
+      if (harvestCells[0].quantity >= costOfWater) {
+        cells[i].classList.add('water');
+        waterCells.push(i);
+        harvestCells[0].quantity = harvestCells[0].quantity - costOfWater;
+      }
+      else {
+        updateMessage(`You need ${costOfWater} wheat to add water.`);
+      }
     }
   }
   updateScore(harvestCells);
@@ -52,11 +61,14 @@ export function AddWater(i: number, cells: HTMLElement[]) {
 export function plantSeeds(i: number, cells: HTMLElement[]) {
   if (CheckTilePosition(i) === "empty") {
     if (CheckAdjacentCells(i).includes("water")) {
-      if (harvestCells[0].quantity > 0) {
+      if (harvestCells[0].quantity >= costOfSeed) {
         cells[i].classList.add('planted');
         cells[i].classList.add('wheat01');
         plantedCells.push({ cell: i, age: 1 });
-        harvestCells[0].quantity = harvestCells[0].quantity - 1;
+        harvestCells[0].quantity = harvestCells[0].quantity - costOfSeed;
+      }
+      else {
+        updateMessage(`You need ${costOfSeed} wheat to plant trees.`);
       }
     }
   }

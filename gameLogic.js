@@ -1,12 +1,14 @@
 import { gridSize } from './types.js';
-import { updateScore } from './ui.js';
+import { updateScore, updateMessage } from './ui.js';
 let plantedCells = [];
-let water = [];
-let harvest = [{ seedType: 'wheat', quantity: 2 }];
+let waterCells = [];
+let harvestCells = [{ seedType: 'wheat', quantity: 2 }];
+let costOfWater = 5;
+let costOfSeed = 1;
 export function CheckTilePosition(i) {
     if (plantedCells.some(plant => plant.cell === i))
         return "planted";
-    if (water.includes(i))
+    if (waterCells.includes(i))
         return "water";
     else
         return "empty";
@@ -38,26 +40,36 @@ export function AgePlant(cells) {
     }
 }
 export function AddWater(i, cells) {
+    console.log("Tried to add water");
     if (CheckTilePosition(i) === "empty") {
         if (CheckAdjacentCells(i).includes("water")) {
-            cells[i].classList.add('water');
-            water.push(i);
+            if (harvestCells[0].quantity >= costOfWater) {
+                cells[i].classList.add('water');
+                waterCells.push(i);
+                harvestCells[0].quantity = harvestCells[0].quantity - costOfWater;
+            }
+            else {
+                updateMessage(`You need ${costOfWater} wheat to add water.`);
+            }
         }
     }
-    updateScore(harvest);
+    updateScore(harvestCells);
 }
 export function plantSeeds(i, cells) {
     if (CheckTilePosition(i) === "empty") {
         if (CheckAdjacentCells(i).includes("water")) {
-            if (harvest[0].quantity > 0) {
+            if (harvestCells[0].quantity >= costOfSeed) {
                 cells[i].classList.add('planted');
                 cells[i].classList.add('wheat01');
                 plantedCells.push({ cell: i, age: 1 });
-                harvest[0].quantity = harvest[0].quantity - 1;
+                harvestCells[0].quantity = harvestCells[0].quantity - costOfSeed;
+            }
+            else {
+                updateMessage(`You need ${costOfSeed} wheat to plant trees.`);
             }
         }
     }
-    updateScore(harvest);
+    updateScore(harvestCells);
 }
 export function harvestPlants(i, cells) {
     let selectedTile = CheckTilePosition(i);
@@ -76,16 +88,16 @@ export function harvestPlants(i, cells) {
                     break;
                 case 3:
                     cells[i].classList.remove("wheat03");
-                    harvest[0].quantity = harvest[0].quantity + 2;
+                    harvestCells[0].quantity = harvestCells[0].quantity + 2;
                     break;
                 default:
                     cells[i].classList.remove("wheat03");
-                    harvest[0].quantity = harvest[0].quantity + 2;
+                    harvestCells[0].quantity = harvestCells[0].quantity + 2;
                     break;
             }
             plantedCells = plantedCells.filter(item => item.cell !== i);
             cells[i].classList.remove("planted");
-            updateScore(harvest);
+            updateScore(harvestCells);
             break;
         default:
             break;
@@ -95,7 +107,7 @@ export function flattenTile(i, cells) {
     let selectedTile = CheckTilePosition(i);
     switch (selectedTile) {
         case "water":
-            water = water.filter(item => item !== i);
+            waterCells = waterCells.filter(item => item !== i);
             cells[i].classList.remove("water");
             break;
         case "planted":
@@ -117,7 +129,7 @@ export function flattenTile(i, cells) {
             }
             plantedCells = plantedCells.filter(item => item.cell !== i);
             cells[i].classList.remove("planted");
-            updateScore(harvest);
+            updateScore(harvestCells);
             break;
         default:
             break;
@@ -125,8 +137,8 @@ export function flattenTile(i, cells) {
 }
 export function GenerateRandomWaterTile(cells) {
     let randomTile = Math.floor(Math.random() * gridSize * gridSize);
-    water.push(randomTile);
-    for (let i = 0; i < water.length; i++) {
-        cells[water[i]].classList.add('water');
+    waterCells.push(randomTile);
+    for (let i = 0; i < waterCells.length; i++) {
+        cells[waterCells[i]].classList.add('water');
     }
 }
